@@ -125,4 +125,20 @@ mod tests {
         from_ranges_ok!(strloin, &[6..11, 5..6, 0..5], "world hello", false);
         from_ranges_ok!(strloin, &[0..6, 0..5], "hello hello", false);
     }
+
+    #[test]
+    #[should_panic]
+    fn invalid_range() {
+        let string = "hello world";
+        let strloin = Strloin::new(&string);
+        let _ = strloin.from_ranges(&[1..0]);
+    }
+
+    #[test]
+    #[should_panic]
+    fn invalid_ranges() {
+        let string = "hello world";
+        let strloin = Strloin::new(&string);
+        let _ = strloin.from_ranges(&[2..1, 1..4]);
+    }
 }
