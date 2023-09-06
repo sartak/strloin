@@ -1,3 +1,9 @@
+//! `strloin` gives you copy-on-write (cow) slices of a string. If the provided ranges form a
+//! single contiguous region, then you'll get back a borrowed slice of the string. Otherwise,
+//! you'll get back an owned concatenation of each range. Note that this crate is intended for
+//! cases where borrowing is far more common than cloning. If that's not the case, it's likely that
+//! the overhead is not worth it and you should consider unconditionally cloning.
+
 #![warn(clippy::cargo)]
 #![warn(clippy::pedantic)]
 #![warn(clippy::nursery)]
@@ -27,11 +33,27 @@ fn collapse_ranges(ranges: &[Range<usize>]) -> Option<Range<usize>> {
 }
 
 impl<'a> Strloin<'a> {
+    /// Construct a new Strloin from the given string.
     #[must_use]
     pub const fn new(source: &'a str) -> Self {
         Strloin { source }
     }
 
+    /// Extracts a string from the given ranges; if the ranges form a single contiguous region,
+    /// then the result will borrow from the source string. Otherwise, the ranges will be collected
+    /// into an owned string.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use strloin::Strloin;
+    ///
+    /// let strloin = Strloin::new("hello world");
+    ///
+    /// assert_eq!(strloin.from_ranges(&[0..5]), "hello"); // borrowed
+    /// assert_eq!(strloin.from_ranges(&[0..5, 5..11]), "hello world"); // borrowed
+    /// assert_eq!(strloin.from_ranges(&[0..5, 6..11]), "helloworld"); // owned
+    /// ```
     #[must_use]
     pub fn from_ranges(&self, ranges: &[Range<usize>]) -> Cow<'a, str> {
         if let Some(range) = collapse_ranges(ranges) {

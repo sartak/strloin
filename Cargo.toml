@@ -1,6 +1,16 @@
 [package]
 name = "strloin"
 version = "0.1.0"
+authors = ["Shawn M Moore <code@shawn.dev>"]
 edition = "2021"
+rust-version = "1.56"
+
+description = "copy on write slices of a string"
+repository = "https://github.com/sartak/strloin"
+readme = "README.md"
+keywords = ["string", "str", "slice", "cow", "copy-on-write"]
+categories = ["text-processing", "parsing", "memory-management"]
+license = "MIT"
+include = ["src/**/*", "LICENSE", "README.md", "CHANGELOG.md"]
 
 [dependencies]
