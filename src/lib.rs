@@ -22,8 +22,12 @@ fn collapse_ranges(ranges: &[Range<usize>]) -> Option<Range<usize>> {
     let start = first.start;
     let mut end = first.end;
 
+    if start > end {
+        return None;
+    }
+
     for r in rs {
-        if r.start != end {
+        if r.start != end || r.end < r.start {
             return None;
         }
         end = r.end;
@@ -79,12 +83,17 @@ mod tests {
 
         assert_eq!(collapse_ranges(&[]), Some(0..0));
 
+        assert_eq!(collapse_ranges(&[0..0]), Some(0..0));
         assert_eq!(collapse_ranges(&[0..2]), Some(0..2));
+        assert_eq!(collapse_ranges(&[2..0]), None);
 
         assert_eq!(collapse_ranges(&[0..2, 2..4]), Some(0..4));
+        assert_eq!(collapse_ranges(&[3..2, 2..4]), None);
         assert_eq!(collapse_ranges(&[0..2, 4..6]), None);
         assert_eq!(collapse_ranges(&[0..2, 3..4]), None);
         assert_eq!(collapse_ranges(&[2..4, 0..2]), None);
+        assert_eq!(collapse_ranges(&[0..2, 0..4]), None);
+        assert_eq!(collapse_ranges(&[0..2, 2..1]), None);
 
         assert_eq!(collapse_ranges(&[0..2, 2..4, 4..6]), Some(0..6));
         assert_eq!(collapse_ranges(&[0..2, 3..5, 6..8]), None);
