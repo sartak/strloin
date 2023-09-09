@@ -1,6 +1,6 @@
 [package]
 name = "strloin"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Shawn M Moore <code@shawn.dev>"]
 edition = "2021"
 rust-version = "1.56"

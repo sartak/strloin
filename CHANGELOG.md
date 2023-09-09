@@ -1,6 +1,6 @@
 # Changelog
 
-## [NEXT]
+## [0.1.2] - 2023-09-08
 
 - add benchmark result
 - re-export Cow, Owned, and Borrowed for different COW implementations
