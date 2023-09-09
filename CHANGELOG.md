@@ -1,6 +1,6 @@
 # Changelog
 
-## [NEXT]
+## [0.1.3] - 2023-09-09
 
 - split into modules
 - add a `Ranges` object and add to example benchmark
