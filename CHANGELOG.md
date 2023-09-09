@@ -1,5 +1,9 @@
 # Changelog
 
+## [NEXT]
+
+- split into modules
+
 ## [0.1.2] - 2023-09-08
 
 - add benchmark result
