@@ -1,7 +1,7 @@
 use std::ops::Range;
 
 /// A data structure for incrementally building a list of ranges.
-#[derive(Default)]
+#[derive(Debug, Default, Clone)]
 pub struct Ranges {
     pub ranges: Vec<Range<usize>>,
 }
@@ -66,6 +66,34 @@ impl Ranges {
     /// Removes all elements from the [`Ranges`].
     pub fn clear(&mut self) {
         self.ranges.clear();
+    }
+}
+
+impl From<Range<usize>> for Ranges {
+    fn from(range: Range<usize>) -> Self {
+        Ranges::from_range(range)
+    }
+}
+
+impl FromIterator<Range<usize>> for Ranges {
+    fn from_iter<I: IntoIterator<Item = Range<usize>>>(iter: I) -> Self {
+        let iter = iter.into_iter();
+        let (capacity, _) = iter.size_hint();
+        let mut ranges = Ranges::with_capacity(capacity);
+
+        for range in iter {
+            ranges.push(range);
+        }
+
+        ranges
+    }
+}
+
+impl Extend<Range<usize>> for Ranges {
+    fn extend<T: IntoIterator<Item = Range<usize>>>(&mut self, iter: T) {
+        for range in iter {
+            self.push(range);
+        }
     }
 }
 

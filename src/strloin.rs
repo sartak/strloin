@@ -3,6 +3,7 @@ use crate::ranges::{collapse_ranges, Ranges};
 use std::ops::Range;
 
 /// Holds a source string for conditionally borrowing.
+#[derive(Debug, Clone)]
 pub struct Strloin<'a> {
     pub source: &'a str,
 }
@@ -77,6 +78,12 @@ impl<'a> Strloin<'a> {
                     .collect::<String>(),
             ),
         }
+    }
+}
+
+impl<'a> From<&'a str> for Strloin<'a> {
+    fn from(source: &'a str) -> Self {
+        Strloin::new(source)
     }
 }
 

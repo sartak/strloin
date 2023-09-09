@@ -4,6 +4,7 @@
 
 - split into modules
 - add a `Ranges` object
+- implement more common traits
 
 ## [0.1.2] - 2023-09-08
 
