@@ -1,5 +1,5 @@
 use crate::cow::{Borrowed, Cow, Owned};
-use crate::ranges::collapse_ranges;
+use crate::ranges::{collapse_ranges, Ranges};
 use std::ops::Range;
 
 /// Holds a source string for conditionally borrowing.
@@ -42,6 +42,42 @@ impl<'a> Strloin<'a> {
                 .collect::<String>(),
         )
     }
+
+    /// Extracts a string from the given [`Ranges`] object; if the ranges form a single contiguous
+    /// region, then the result will borrow from the source string. Otherwise, the ranges will be
+    /// collected into an owned string. If you're incrementally building up the list of ranges and
+    /// checking each time, using `from_ranges_obj` is more efficient.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use strloin::{Strloin, Ranges};
+    ///
+    /// let strloin = Strloin::new("hello world");
+    ///
+    /// let mut ranges = Ranges::from_range(0..5);
+    ///
+    /// assert_eq!(strloin.from_ranges_obj(&ranges), "hello"); // borrowed
+    ///
+    /// ranges.push(5..11);
+    /// assert_eq!(strloin.from_ranges_obj(&ranges), "hello world"); // borrowed
+    ///
+    /// ranges.push(5..11);
+    /// assert_eq!(strloin.from_ranges_obj(&ranges), "hello world world"); // owned
+    /// ```
+    #[must_use]
+    pub fn from_ranges_obj(&self, ranges: &Ranges) -> Cow<'a, str> {
+        match ranges.ranges.as_slice() {
+            &[] => Borrowed(""),
+            [range] => Borrowed(&self.source[range.clone()]),
+            ranges => Owned(
+                ranges
+                    .iter()
+                    .map(|r| &self.source[r.clone()])
+                    .collect::<String>(),
+            ),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -51,16 +87,41 @@ mod tests {
     #[test]
     fn from_ranges() {
         macro_rules! from_ranges_ok {
-            ($strloin:expr, $ranges:expr, $expected:expr, $is_borrow:expr) => {
-                let got = $strloin.from_ranges($ranges);
-                assert_eq!(got, $expected);
+            ($strloin:expr, $input:expr, $expected:expr, $is_borrow:expr) => {
+                let strloin = &$strloin;
+                let input = $input;
+                let expected = $expected;
+
+                let got_from_slice = strloin.from_ranges(input);
+                assert_eq!(got_from_slice, expected, "from_ranges");
+
+                let mut ranges = Ranges::new();
+                for range in input {
+                    ranges.push(range.clone());
+                }
+                let got_from_obj = strloin.from_ranges_obj(&ranges);
+                assert_eq!(got_from_obj, expected, "from_ranges_obj");
 
                 // I don't see a good way to test beef externally
                 #[cfg(not(feature = "beef"))]
                 if $is_borrow {
-                    assert!(matches!(got, Borrowed(_)), "expected borrow");
+                    assert!(
+                        matches!(got_from_slice, Borrowed(_)),
+                        "expected borrow from ranges slice"
+                    );
+                    assert!(
+                        matches!(got_from_obj, Borrowed(_)),
+                        "expected borrow from ranges obj"
+                    );
                 } else {
-                    assert!(matches!(got, Owned(_)), "expected owned");
+                    assert!(
+                        matches!(got_from_slice, Owned(_)),
+                        "expected owned from ranges slice"
+                    );
+                    assert!(
+                        matches!(got_from_obj, Owned(_)),
+                        "expected owned from ranges obj"
+                    );
                 }
             };
         }

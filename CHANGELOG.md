@@ -3,6 +3,7 @@
 ## [NEXT]
 
 - split into modules
+- add a `Ranges` object
 
 ## [0.1.2] - 2023-09-08
 

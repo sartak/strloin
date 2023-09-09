@@ -45,5 +45,5 @@ mod ranges;
 mod strloin;
 
 pub use crate::cow::{Borrowed, Cow, Owned};
-pub use crate::ranges::collapse_ranges;
+pub use crate::ranges::{collapse_ranges, Ranges};
 pub use crate::strloin::Strloin;
