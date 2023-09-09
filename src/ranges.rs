@@ -71,7 +71,7 @@ impl Ranges {
 
 impl From<Range<usize>> for Ranges {
     fn from(range: Range<usize>) -> Self {
-        Ranges::from_range(range)
+        Self::from_range(range)
     }
 }
 
@@ -79,7 +79,7 @@ impl FromIterator<Range<usize>> for Ranges {
     fn from_iter<I: IntoIterator<Item = Range<usize>>>(iter: I) -> Self {
         let iter = iter.into_iter();
         let (capacity, _) = iter.size_hint();
-        let mut ranges = Ranges::with_capacity(capacity);
+        let mut ranges = Self::with_capacity(capacity);
 
         for range in iter {
             ranges.push(range);
