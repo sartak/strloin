@@ -1,6 +1,6 @@
 # Changelog
 
-## [NEXT]
+## [0.1.4] - 2023-09-09
 
 - add a `push_unchecked` method to `Ranges`
 
