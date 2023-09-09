@@ -36,7 +36,8 @@
 #![warn(clippy::pedantic)]
 #![warn(clippy::nursery)]
 
-use std::{borrow::Cow, ops::Range};
+pub use std::borrow::Cow::{self, Borrowed, Owned};
+use std::ops::Range;
 
 pub struct Strloin<'a> {
     pub source: &'a str,
@@ -89,10 +90,10 @@ impl<'a> Strloin<'a> {
     #[must_use]
     pub fn from_ranges(&self, ranges: &[Range<usize>]) -> Cow<'a, str> {
         if let Some(range) = collapse_ranges(ranges) {
-            return Cow::Borrowed(&self.source[range]);
+            return Borrowed(&self.source[range]);
         }
 
-        Cow::Owned(
+        Owned(
             ranges
                 .iter()
                 .map(|r| &self.source[r.clone()])
@@ -135,9 +136,9 @@ mod tests {
                 let got = $strloin.from_ranges($ranges);
                 assert_eq!(got, $expected);
                 if $is_borrow {
-                    assert!(matches!(got, Cow::Borrowed(_)), "expected borrow");
+                    assert!(matches!(got, Borrowed(_)), "expected borrow");
                 } else {
-                    assert!(matches!(got, Cow::Owned(_)), "expected owned");
+                    assert!(matches!(got, Owned(_)), "expected owned");
                 }
             };
         }
