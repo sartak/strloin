@@ -4,6 +4,7 @@
 
 - add benchmark result
 - re-export Cow, Owned, and Borrowed for different COW implementations
+- add optional `beef` feature for [beef](https://crates.io/crates/beef) crate
 
 ## [0.1.1] - 2023-09-06
 

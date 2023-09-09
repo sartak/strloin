@@ -31,12 +31,31 @@
 //!   'strloin' ran
 //!     2.12 ± 0.33 times faster than 'always-clone'
 //! ```
+//!
+//! ## Optional features
+//!
+//!- **`beef`** - Swap out the [`std::borrow::Cow`](https://doc.rust-lang.org/std/borrow/enum.Cow.html) implementation for [`beef::lean::Cow`](https://docs.rs/beef/latest/beef/lean/type.Cow.html). The performance difference in my use case was just noise, but it may serve you better.
 
 #![warn(clippy::cargo)]
 #![warn(clippy::pedantic)]
 #![warn(clippy::nursery)]
 
+#[cfg(feature = "beef")]
+pub use beef::lean::Cow;
+#[cfg(feature = "beef")]
+#[allow(non_snake_case)]
+pub fn Borrowed<'a>(val: &'a str) -> beef::lean::Cow<'a, str> {
+    Cow::borrowed(val)
+}
+#[cfg(feature = "beef")]
+#[allow(non_snake_case)]
+pub fn Owned<'a>(val: String) -> beef::lean::Cow<'a, str> {
+    Cow::owned(val)
+}
+
+#[cfg(not(feature = "beef"))]
 pub use std::borrow::Cow::{self, Borrowed, Owned};
+
 use std::ops::Range;
 
 pub struct Strloin<'a> {
@@ -135,6 +154,9 @@ mod tests {
             ($strloin:expr, $ranges:expr, $expected:expr, $is_borrow:expr) => {
                 let got = $strloin.from_ranges($ranges);
                 assert_eq!(got, $expected);
+
+                // I don't see a good way to test beef externally
+                #[cfg(not(feature = "beef"))]
                 if $is_borrow {
                     assert!(matches!(got, Borrowed(_)), "expected borrow");
                 } else {

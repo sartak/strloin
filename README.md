@@ -36,3 +36,7 @@ Summary
   'strloin' ran
     2.12 ± 0.33 times faster than 'always-clone'
 ```
+
+## Optional features
+
+- **`beef`** - Swap out the [`std::borrow::Cow`](https://doc.rust-lang.org/std/borrow/enum.Cow.html) implementation for [`beef::lean::Cow`](https://docs.rs/beef/latest/beef/lean/type.Cow.html). The performance difference in my use case was just noise, but it may serve you better.

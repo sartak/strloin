@@ -14,3 +14,4 @@ license = "MIT"
 include = ["src/**/*", "LICENSE", "README.md", "CHANGELOG.md"]
 
 [dependencies]
+beef = { version = "0.5", optional = true }
