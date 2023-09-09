@@ -19,17 +19,22 @@
 //! switching from always cloning to conditionally cloning with strloin had the following impact:
 //!
 //! ```text
-//! Benchmark 1: strloin
-//!   Time (mean ± σ):     324.4 ms ±  38.1 ms    [User: 48.1 ms, System: 51.5 ms]
-//!   Range (min … max):   258.0 ms … 370.9 ms    10 runs
+//! Benchmark 1: always-clone
+//!   Time (mean ± σ):      1.258 s ±  0.084 s    [User: 0.073 s, System: 0.055 s]
+//!   Range (min … max):    1.115 s …  1.364 s    10 runs
 //!
-//! Benchmark 2: always-clone
-//!   Time (mean ± σ):     688.8 ms ±  69.4 ms    [User: 53.4 ms, System: 66.3 ms]
-//!   Range (min … max):   577.5 ms … 774.4 ms    10 runs
+//! Benchmark 2: strloin-slices
+//!   Time (mean ± σ):     397.0 ms ±  35.8 ms    [User: 49.2 ms, System: 49.5 ms]
+//!   Range (min … max):   345.7 ms … 445.5 ms    10 runs
+//!
+//! Benchmark 3: strloin-ranges
+//!   Time (mean ± σ):     379.1 ms ±  41.1 ms    [User: 47.0 ms, System: 50.0 ms]
+//!   Range (min … max):   310.6 ms … 432.3 ms    10 runs
 //!
 //! Summary
-//!   'strloin' ran
-//!     2.12 ± 0.33 times faster than 'always-clone'
+//!   'strloin-ranges' ran
+//!     1.05 ± 0.15 times faster than 'strloin-slices'
+//!     3.32 ± 0.42 times faster than 'always-clone'
 //! ```
 //!
 //! ## Optional features

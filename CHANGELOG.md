@@ -3,7 +3,7 @@
 ## [NEXT]
 
 - split into modules
-- add a `Ranges` object
+- add a `Ranges` object and add to example benchmark
 - implement more common traits
 
 ## [0.1.2] - 2023-09-08
