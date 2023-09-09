@@ -1,5 +1,9 @@
 # Changelog
 
+## [NEXT]
+
+- add a `push_unchecked` method to `Ranges`
+
 ## [0.1.3] - 2023-09-09
 
 - split into modules

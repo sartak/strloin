@@ -63,6 +63,24 @@ impl Ranges {
         self.ranges.push(range);
     }
 
+    /// Adds a new range to the [`Ranges`], collapsing if possible.
+    ///
+    /// # Safety
+    ///
+    /// `push_unchecked` does not check whether the new range has `start` <= `end`. The caller must guarantee that the provided range is valid, otherwise it may
+    /// produce bogus results. (Note that it is perfectly acceptable to push a
+    /// range overlaps or precedes what's already in the `Ranges`)
+    pub unsafe fn push_unchecked(&mut self, range: Range<usize>) {
+        if let Some(last) = self.ranges.last_mut() {
+            if range.start == last.end {
+                last.end = range.end;
+                return;
+            }
+        }
+
+        self.ranges.push(range);
+    }
+
     /// Removes all elements from the [`Ranges`].
     pub fn clear(&mut self) {
         self.ranges.clear();
