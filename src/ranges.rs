@@ -187,4 +187,23 @@ mod tests {
         ranges_ok!(&[0..2, 3..5, 6..8], None, &[0..2, 3..5, 6..8]);
         ranges_ok!(&[0..2, 3..5, 5..7], None, &[0..2, 3..7]);
     }
+
+    #[test]
+    fn extend() {
+        let mut ranges = Ranges::new();
+        ranges.extend(vec![0..2, 2..5]);
+        assert_eq!(ranges.ranges, [0..5], "extend");
+    }
+
+    #[test]
+    fn from() {
+        let ranges = Ranges::from(0..5);
+        assert_eq!(ranges.ranges, [0..5], "from range");
+    }
+
+    #[test]
+    fn collect() {
+        let ranges: Ranges = [0..2, 2..5].into_iter().collect();
+        assert_eq!(ranges.ranges, [0..5], "from collect");
+    }
 }
