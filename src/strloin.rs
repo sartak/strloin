@@ -56,7 +56,7 @@ impl<'a> Strloin<'a> {
     ///
     /// let strloin = Strloin::new("hello world");
     ///
-    /// let mut ranges = Ranges::from_range(0..5);
+    /// let mut ranges = Ranges::from(0..5);
     ///
     /// assert_eq!(strloin.from_ranges_obj(&ranges), "hello"); // borrowed
     ///

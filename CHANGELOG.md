@@ -3,6 +3,7 @@
 ## NEXT - 2024-07-23
 
 - _breaking_: remove optional `beef` feature since it's not semver compatible
+- _breaking_: remove `Ranges::from_range(0..9)` in favor of `Ranges::from(0..9)`
 
 ## [0.1.4] - 2023-09-09
 

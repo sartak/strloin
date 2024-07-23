@@ -21,14 +21,6 @@ impl Ranges {
         }
     }
 
-    /// Construct a new [`Ranges`] from a single range.
-    #[must_use]
-    pub fn from_range(range: Range<usize>) -> Self {
-        Self {
-            ranges: vec![range],
-        }
-    }
-
     /// Construct a new [`Ranges`] from a single range with the given capacity.
     #[must_use]
     pub fn from_range_with_capacity(range: Range<usize>, capacity: usize) -> Self {
@@ -44,7 +36,7 @@ impl Ranges {
     /// ```
     /// use strloin::Ranges;
     ///
-    /// let mut ranges = Ranges::from_range(0..5);
+    /// let mut ranges = Ranges::from(0..5);
     /// ranges.push(5..11);
     /// assert_eq!(ranges.ranges, vec![0..11]);
     ///
@@ -89,7 +81,9 @@ impl Ranges {
 
 impl From<Range<usize>> for Ranges {
     fn from(range: Range<usize>) -> Self {
-        Self::from_range(range)
+        Self {
+            ranges: vec![range],
+        }
     }
 }
 
