@@ -12,6 +12,3 @@ keywords = ["string", "str", "slice", "cow", "copy-on-write"]
 categories = ["text-processing", "parsing", "memory-management"]
 license = "MIT"
 include = ["src/**/*", "LICENSE", "README.md", "CHANGELOG.md"]
-
-[dependencies]
-beef = { version = "0.5", optional = true }

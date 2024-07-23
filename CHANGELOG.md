@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT - 2024-07-23
+
+- _breaking_: remove optional `beef` feature since it's not semver compatible
+
 ## [0.1.4] - 2023-09-09
 
 - add a `push_unchecked` method to `Ranges`

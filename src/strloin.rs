@@ -109,8 +109,6 @@ mod tests {
                 let got_from_obj = strloin.from_ranges_obj(&ranges);
                 assert_eq!(got_from_obj, expected, "from_ranges_obj");
 
-                // I don't see a good way to test beef externally
-                #[cfg(not(feature = "beef"))]
                 if $is_borrow {
                     assert!(
                         matches!(got_from_slice, Borrowed(_)),
