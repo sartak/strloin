@@ -2,8 +2,8 @@
 name = "strloin"
 version = "0.2.0"
 authors = ["Shawn M Moore <code@shawn.dev>"]
-edition = "2021"
-rust-version = "1.56"
+edition = "2024"
+rust-version = "1.85"
 
 description = "copy on write slices of a string"
 repository = "https://github.com/sartak/strloin"

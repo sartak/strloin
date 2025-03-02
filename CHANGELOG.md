@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- _breaking_: upgrade to 2024 edition, which bumps MSRV to 1.85
+
 ## [0.2.0] - 2024-07-23
 
 - _breaking_: remove optional `beef` feature since it's not semver compatible
