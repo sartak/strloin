@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## [0.3.0] - 2025-03-02
 
 - _breaking_: upgrade to 2024 edition, which bumps MSRV to 1.85
 
